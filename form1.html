@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 50%; border-collapse: collapse; }
+        td { padding: 8px; }
+        input, select, textarea { width: 100%; padding: 5px; }
+    </style>
+</head>
+<body>
+    <h2>用户注册</h2>
+    <form action="#" method="post">
+        <table>
+            <tr>
+                <td><label for="username">用户名：</label></td>
+                <td><input type="text" id="username" name="username" value="zhangsan" required></td>
+            </tr>
+            <tr>
+                <td><label for="password">用户密码：</label></td>
+                <td><input type="password" id="password" name="password" required></td>
+            </tr>
+            <tr>
+                <td>用户性别：</td>
+                <td>
+                    <input type="radio" id="male" name="gender" value="男"> <label for="male">男</label>
+                    <input type="radio" id="female" name="gender" value="女"> <label for="female">女</label>
+                </td>
+            </tr>
+            <tr>
+                <td>爱好：</td>
+                <td>
+                    <input type="checkbox" name="hobby" value="足球"> 足球
+                    <input type="checkbox" name="hobby" value="篮球"> 篮球
+                    <input type="checkbox" name="hobby" value="LOL"> LOL
+                    <input type="checkbox" name="hobby" value="韩剧"> 韩剧
+                    <input type="checkbox" name="hobby" value="王者荣耀"> 王者荣耀
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">邮箱：</label></td>
+                <td><input type="email" id="email" name="email" placeholder="请输入您的邮箱" required></td>
+            </tr>
+            <tr>
+                <td><label for="avatar">用户头像：</label></td>
+                <td><input type="file" id="avatar" name="avatar"></td>
+            </tr>
+            <tr>
+                <td><label for="address">您的家庭住址：</label></td>
+                <td>
+                    <select id="address" name="address">
+                        <option value="陕西">陕西</option>
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广东">广东</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="comments">您的建议或者意见：</label></td>
+                <td><textarea id="comments" name="comments" rows="4" placeholder="您的建议或者意见"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;">
+                    <input type="submit" value="提交">
+                    <input type="reset" value="重置">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
