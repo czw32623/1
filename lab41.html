@@ -1,0 +1,59 @@
+< html>
+< body>
+< style>
+#a {
+  background-color: red;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+
+#b {
+  background-color: yellow;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  transform: skewY(60deg);
+  transform-origin: top left;
+}
+
+#c {
+  background-color: green;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  transform: skewX(30deg);
+  transform-origin: top left;
+}
+
+#container {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  transform-origin: top left;
+  transform: translate(100px, 100px) rotate(-45deg); /* Rotate the whole cube */
+}
+
+#b {
+  left: 173px; /* Corrected left */
+  top: -100px;   /* Corrected top */
+}
+
+#c {
+  top: 87px;    /* Corrected top */
+  left: -11px;   /* Corrected left */
+}
+</style>
+< div id="container">
+  < div id="a">< /div>
+  < div id="b">< /div>
+  < div id="c">< /div>
+< /div>
+< /body>
+< /html>
