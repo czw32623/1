@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>彩色气球上升</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #1e5799, #2989d8);
+            height: 100vh;
+        }
+        .balloon {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+        .balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: rgba(255,255,255,0.5);
+            transform: translateX(-50%);
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -22px;
+            left: 50%;
+            width: 8px;
+            height: 6px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        #controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 15px;
+            background: #ff6b6b;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #counter {
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button id="addBalloons">添加气球</button>
+        <button id="removeBalloons">移除气球</button>
+        <div id="counter">气球数量: 0</div>
+    </div>
+
+    <script>
+        const colors = [
+            '#FF9AA2', '#FFB7B2', '#FFDAC1', '#E2F0CB', 
+            '#B5EAD7', '#C7CEEA', '#F8B195', '#F67280', 
+            '#C06C84', '#6C5B7B', '#355C7D', '#A8E6CE', 
+            '#DCEDC2', '#FFD3B5', '#FFAAA6', '#FF8C94'
+        ];
+        
+        let balloons = [];
+        let balloonCount = 0;
+        const maxBalloons = 500;
+        
+        function createBalloon() {
+            if (balloonCount >= maxBalloons) return null;
+            
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            
+            const size = Math.random() * 40 + 30;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const startX = Math.random() * window.innerWidth;
+            const speed = Math.random() * 1 + 0.5;
+            const sway = Math.random() * 3 + 1;
+            const rotationSpeed = Math.random() * 2 - 1;
+            
+            balloon.style.width = `${size}px`;
+            balloon.style.height = `${size}px`;
+            balloon.style.background = `radial-gradient(circle at 30% 30%, white, ${color})`;
+            balloon.style.left = `${startX}px`;
+            balloon.style.bottom = `-${size}px`;
+            
+            document.body.appendChild(balloon);
+            balloonCount++;
+            document.getElementById('counter').textContent = `气球数量: ${balloonCount}`;
+            
+            balloon.addEventListener('click', function() {
+                this.style.transition = 'all 0.3s';
+                this.style.transform = 'scale(1.2)';
+                this.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(this);
+                    balloonCount--;
+                    document.getElementById('counter').textContent = `气球数量: ${balloonCount}`;
+                }, 300);
+            });
+            
+            return {
+                element: balloon,
+                x: startX,
+                y: -size,
+                size: size,
+                speed: speed,
+                sway: sway,
+                rotation: 0,
+                rotationSpeed: rotationSpeed
+            };
+        }
+        
+        function addBalloons(count) {
+            for (let i = 0; i < count; i++) {
+                const balloon = createBalloon();
+                if (balloon) balloons.push(balloon);
+            }
+        }
+        
+        function removeBalloons(count) {
+            const removeCount = Math.min(count, balloons.length);
+            for (let i = 0; i < removeCount; i++) {
+                const balloon = balloons.pop();
+                if (balloon && balloon.element.parentNode) {
+                    document.body.removeChild(balloon.element);
+                    balloonCount--;
+                }
+            }
+            document.getElementById('counter').textContent = `气球数量: ${balloonCount}`;
+        }
+        
+        function animate() {
+            balloons.forEach(balloon => {
+                balloon.y += balloon.speed;
+                balloon.rotation += balloon.rotationSpeed;
+                
+                const swayX = Math.sin(balloon.y * 0.01) * balloon.sway;
+                
+                balloon.element.style.transform = `translateX(${swayX}px) rotate(${balloon.rotation}deg)`;
+                balloon.element.style.bottom = `${balloon.y}px`;
+                
+                if (balloon.y > window.innerHeight + balloon.size) {
+                    balloon.y = -balloon.size;
+                    balloon.x = Math.random() * window.innerWidth;
+                    balloon.element.style.left = `${balloon.x}px`;
+                }
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        document.getElementById('addBalloons').addEventListener('click', () => addBalloons(20));
+        document.getElementById('removeBalloons').addEventListener('click', () => removeBalloons(20));
+        
+        addBalloons(30);
+        animate();
+    </script>
+</body>
+</html>
