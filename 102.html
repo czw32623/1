@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modified Flying Balloon Lab</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        const colors = ['red', 'orange', 'yellow', 'green', 'black', 'blue', 'purple'];
+        const balloons = [];
+        const burstLevel = 200; // Balloons will burst when they reach this y - level
+
+        function Balloon(x, y, diameter, color) {
+            this.x = x;
+            this.y = y;
+            this.diameter = diameter;
+            this.color = color;
+            this.speed = Math.random() * 2 + 1;
+            this.growthRate = 0.1;
+        }
+
+        Balloon.prototype.draw = function () {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.diameter / 2, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        };
+
+        Balloon.prototype.update = function () {
+            this.y -= this.speed;
+            this.diameter += this.growthRate;
+            if (this.y <= burstLevel) {
+                const index = balloons.indexOf(this);
+                if (index > -1) {
+                    balloons.splice(index, 1);
+                }
+            }
+        };
+
+        function createBalloon() {
+            const x = Math.random() * canvas.width;
+            const y = canvas.height;
+            const diameter = Math.random() * 30 + 20;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const balloon = new Balloon(x, y, diameter, color);
+            balloons.push(balloon);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < balloons.length; i++) {
+                balloons[i].draw();
+                balloons[i].update();
+            }
+            if (Math.random() < 0.02) {
+                createBalloon();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+
+</html>
+    
